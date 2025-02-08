@@ -1,26 +1,26 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
-# Ruta del archivo CSV con las edades
-archivo_csv = "archivo.csv" 
+# URL del archivo CSV
+archivo_csv = "https://raw.githubusercontent.com/DidiGG/Graficas-Pacientes-HomeMed/main/data/lista_pacientes.csv"
 
-# Cargar el archivo CSV
+# Cargar el dataset
 df = pd.read_csv(archivo_csv)
 
-# Verificar si la columna "edad" existe
-if "Edad" in df.columns:
-    # Asegurar que la columna sea numérica (por si viene como texto)
-    df["edad"] = pd.to_numeric(df["edad"], errors="coerce")
+# Verificar las columnas disponibles
+print(df.columns)
 
-    # Eliminar valores NaN (faltantes) en la columna edad
-    df = df.dropna(subset=["edad"])
+# Reemplaza "edad" por el nombre exacto de la columna de edades en tu dataset
+columna_edad = "Edad"  # Asegúrate de que coincide con el nombre de la columna
 
-    # Generar estadísticas descriptivas
-    estadisticas = df["edad"].describe()
+# Contar la cantidad de pacientes por edad
+conteo_edades = df[columna_edad].value_counts().sort_index()
 
-    # Guardar los resultados en un nuevo CSV
-    estadisticas.to_csv("estadisticas_edades.csv")
-
-    print("Estadísticas descriptivas guardadas en 'estadisticas_edades.csv'")
-    print(estadisticas)
-else:
-    print("Error: La columna 'edad' no existe en el archivo CSV.")
+# Crear el gráfico
+plt.figure(figsize=(15, 7))
+plt.bar(conteo_edades.index, conteo_edades.values, color="skyblue")
+plt.xlabel("Edad")
+plt.ylabel("Cantidad de Pacientes")
+plt.title("Distribución de Pacientes por Edad")
+plt.grid(axis="y", linestyle="--", alpha=0.7)
+plt.show()
