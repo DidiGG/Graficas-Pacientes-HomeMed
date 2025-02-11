@@ -7,10 +7,12 @@ archivo_csv = "https://raw.githubusercontent.com/DidiGG/Graficas-Pacientes-HomeM
 # Cargar el dataset
 df = pd.read_csv(archivo_csv)
 print(df.columns)
-columna_sexo = "sexo"  
+
+# Filtrar los pacientes con "DETERIORO COGNITIVO SEVERO" en la columna "resultado"
+df_severo = df[df["resultado"] == "DETERIORO COGNITIVO SEVERO"]
 
 # Contar la cantidad de pacientes por sexo
-conteo_sexos = df[columna_sexo].value_counts().sort_index()
+conteo_sexos = df_severo["sexo"].value_counts().sort_index()
 conteo_sexos.index = conteo_sexos.index.map({"M": "Masculino", "F": "Femenino"})
 
 # Crear un mapeo de colores para cada sexo
@@ -24,10 +26,10 @@ bars = plt.bar(conteo_sexos.index, conteo_sexos.values, color=colors)
 # Añadir los valores exactos sobre cada barra
 for bar in bars:
     yval = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, yval - 0.2, int(yval), ha='center', va='bottom', fontsize=8)
+    plt.text(bar.get_x() + bar.get_width()/2, yval + 0, int(yval), ha='center', va='bottom', fontsize=8)
 
 plt.xlabel("Sexo")
 plt.ylabel("Cantidad de Pacientes")
-plt.title("Distribución de Pacientes por Sexo")
+plt.title("Pacientes con DETERIORO COGNITIVO SEVERO por Sexo")
 plt.grid(axis="y", linestyle="--", alpha=0.7)
 plt.show()
