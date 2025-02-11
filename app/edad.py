@@ -35,7 +35,6 @@ conteo_edades = df["Rango de Edad"].value_counts().sort_index()
 plt.figure(figsize=(12, 6))
 bars = plt.bar(conteo_edades.index, conteo_edades.values, color="skyblue", width=0.8)
 
-# Añadir etiquetas exactas sobre cada barra
 for bar in bars:
     yval = bar.get_height()
     plt.text(bar.get_x() + bar.get_width()/2, yval, int(yval), ha='center', va='bottom', fontsize=10, color="black")
@@ -47,5 +46,4 @@ plt.title("Distribución de Pacientes por Rango de Edad (Desde 50 años)")
 plt.xticks(rotation=45)  # Gira etiquetas para mejor legibilidad
 plt.grid(axis="y", linestyle="--", alpha=0.7)
 
-# Mostrar la gráfica
 plt.show()
